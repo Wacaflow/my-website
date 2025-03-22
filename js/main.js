@@ -207,6 +207,7 @@ function openMediaGallery(influencer) {
                         Your browser does not support the video tag.
                     </video>
                     <div class="play-button-overlay" role="button" aria-label="Play video"></div>
+                    <div class="video-loading-spinner"></div>
                 </div>
                 <p class="media-description">${item.description}</p>
             `;
@@ -215,6 +216,26 @@ function openMediaGallery(influencer) {
             const videoContainer = mediaItem.querySelector('.video-container');
             const video = mediaItem.querySelector('video');
             const playButton = mediaItem.querySelector('.play-button-overlay');
+            
+            // Add loading state to video container initially
+            videoContainer.classList.add('video-loading');
+            
+            // Video loading events
+            video.addEventListener('loadstart', function() {
+                videoContainer.classList.add('video-loading');
+            });
+            
+            video.addEventListener('canplay', function() {
+                videoContainer.classList.remove('video-loading');
+            });
+            
+            video.addEventListener('error', function() {
+                videoContainer.classList.remove('video-loading');
+                console.error('Video failed to load:', video.error);
+                // Show error state
+                playButton.style.opacity = '1';
+                playButton.style.backgroundColor = 'rgba(255, 0, 0, 0.3)';
+            });
             
             // Direct click handler on the play button
             playButton.addEventListener('click', function(e) {
@@ -281,6 +302,9 @@ function openMediaGallery(influencer) {
     
     // Reset scroll position to top
     mediaGalleryContainer.scrollTop = 0;
+    
+    // Initialize loading spinners for videos in the gallery
+    initVideoLoadingSpinners(mediaGalleryContainer);
     
     // Trigger animation
     setTimeout(() => {
@@ -391,6 +415,30 @@ document.addEventListener('DOMContentLoaded', function() {
         root.style.setProperty('--gradient-primary', `linear-gradient(135deg, ${themeColors.primary} 0%, ${themeColors.accent1} 100%)`);
         root.style.setProperty('--gradient-secondary', `linear-gradient(135deg, ${themeColors.accent2} 0%, ${themeColors.secondary} 100%)`);
         
+        // Fix for "CRYPTO INFLUENCERS & DEGENS" text not updating with theme
+        const bannerHighlight = document.querySelector('.banner-highlight');
+        if (bannerHighlight) {
+            // Apply a theme class to track current theme
+            document.body.className = document.body.className.replace(/theme-\w+/g, '').trim();
+            document.body.classList.add(`theme-${theme}`);
+            
+            // Force stronger inline styles with !important to override media queries
+            const gradientBg = `linear-gradient(to right, ${themeColors.accent1} 0%, ${themeColors.primary} 50%, ${themeColors.accent2} 100%) !important`;
+            bannerHighlight.style.cssText = `
+                background: ${gradientBg};
+                -webkit-background-clip: text !important;
+                background-clip: text !important;
+                -webkit-text-fill-color: transparent !important;
+            `;
+            
+            // For iPhone/Retina devices, we need to set a data attribute so we can target with CSS
+            bannerHighlight.setAttribute('data-theme-color', themeColors.accent1);
+            
+            // Remove any mobile-specific classes that might override our styles
+            bannerHighlight.classList.remove('mobile-solid-text');
+            bannerHighlight.classList.add('theme-controlled');
+        }
+        
         // Update active state for buttons
         themeButtons.forEach(btn => {
             btn.classList.remove('active');
@@ -426,6 +474,35 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Add extra event listeners for mobile
 function initMobileEnhancements() {
+    // Handle video loading for all videos in the document
+    document.querySelectorAll('.video-container').forEach(function(container) {
+        const video = container.querySelector('video');
+        if (video) {
+            // Add loading state initially
+            container.classList.add('video-loading');
+            
+            // Video loading events
+            video.addEventListener('loadstart', function() {
+                container.classList.add('video-loading');
+            });
+            
+            video.addEventListener('canplay', function() {
+                container.classList.remove('video-loading');
+            });
+            
+            video.addEventListener('error', function() {
+                container.classList.remove('video-loading');
+                console.error('Video failed to load:', video.error);
+                // Show error state on play button
+                const playButton = container.querySelector('.play-button-overlay');
+                if (playButton) {
+                    playButton.style.opacity = '1';
+                    playButton.style.backgroundColor = 'rgba(255, 0, 0, 0.3)';
+                }
+            });
+        }
+    });
+
     // Global video delegate click handler 
     document.addEventListener('click', function(e) {
         if (e.target.matches('.play-button-overlay')) {
@@ -497,6 +574,45 @@ function initMobileEnhancements() {
     });
 }
 
+// Initialize loading spinners for videos
+function initVideoLoadingSpinners(container) {
+    const videos = container.querySelectorAll('video');
+    videos.forEach(function(video) {
+        const videoContainer = video.closest('.video-container');
+        if (videoContainer) {
+            // Make sure the container has a loading spinner
+            if (!videoContainer.querySelector('.video-loading-spinner')) {
+                const spinner = document.createElement('div');
+                spinner.className = 'video-loading-spinner';
+                videoContainer.appendChild(spinner);
+            }
+            
+            // Add loading state initially
+            videoContainer.classList.add('video-loading');
+            
+            // Video loading events
+            video.addEventListener('loadstart', function() {
+                videoContainer.classList.add('video-loading');
+            });
+            
+            video.addEventListener('canplay', function() {
+                videoContainer.classList.remove('video-loading');
+            });
+            
+            video.addEventListener('error', function() {
+                videoContainer.classList.remove('video-loading');
+                console.error('Video failed to load:', video.error);
+                // Show error state
+                const playButton = videoContainer.querySelector('.play-button-overlay');
+                if (playButton) {
+                    playButton.style.opacity = '1';
+                    playButton.style.backgroundColor = 'rgba(255, 0, 0, 0.3)';
+                }
+            });
+        }
+    });
+}
+
 // Call the mobile enhancements function when the DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     // Existing initializations
@@ -506,6 +622,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Add mobile-specific enhancements
     initMobileEnhancements();
+    
+    // Initialize video loading spinners for all videos on the page
+    initVideoLoadingSpinners(document);
     
     // Animate banner text on load
     const bannerHighlight = document.querySelector('.banner-highlight');
