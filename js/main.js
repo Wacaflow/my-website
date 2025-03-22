@@ -200,9 +200,12 @@ function openMediaGallery(influencer) {
                 <p class="media-description">${item.description}</p>
             `;
         } else if (item.type === 'video') {
+            // Generate a poster URL from the video URL (using the same filename but with jpg extension)
+            const posterUrl = item.url.replace('.mp4', '.jpg');
+            
             mediaItem.innerHTML = `
                 <div class="video-container">
-                    <video preload="metadata" muted playsinline>
+                    <video preload="metadata" muted playsinline poster="${posterUrl}" onerror="this.poster='images/portfolio/video_thumbnail.jpg'">
                         <source src="${item.url}" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
