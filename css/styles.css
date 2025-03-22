@@ -1872,7 +1872,7 @@ footer {
         -webkit-background-clip: initial !important;
         background-clip: initial !important;
         -webkit-text-fill-color: #D68227 !important; /* Use accent-1 color as solid color */
-        text-shadow: 0 0 8px rgba(214, 130, 39, 0.5) !important;
+        text-shadow: 0 0 5px rgba(214, 130, 39, 0.3) !important;
         letter-spacing: 0.5px !important;
         font-size: 20px !important;
     }
@@ -1882,8 +1882,21 @@ footer {
     .textGlow, 
     .banner-highlight {
         animation: none !important; /* Disable complex animations on mobile */
-        text-shadow: 0 0 10px currentColor !important;
+        text-shadow: 0 0 5px rgba(var(--primary-rgb), 0.3) !important;
         filter: none !important; /* Remove blur filters that cause rendering issues */
+    }
+
+    /* Specifically target the text elements mentioned by the user */
+    .logo, 
+    .logo-subtext, 
+    .section-title, 
+    .cta-title, 
+    .gallery-title {
+        background: none !important;
+        -webkit-background-clip: initial !important;
+        background-clip: initial !important;
+        -webkit-text-fill-color: var(--accent-1) !important;
+        text-shadow: 0 0 5px rgba(var(--primary-rgb), 0.3) !important;
     }
 
     /* Make gradients simpler on mobile */
@@ -1892,12 +1905,9 @@ footer {
     .modal-title,
     .section-title,
     .gallery-title {
-        background: linear-gradient(90deg, var(--primary), var(--accent-1)) !important;
-        -webkit-background-clip: text !important;
-        background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
-        /* Simpler shadow */
-        text-shadow: 0 0 8px rgba(214, 130, 39, 0.6) !important;
+        background: none !important;
+        -webkit-text-fill-color: var(--accent-1) !important;
+        text-shadow: 0 0 5px rgba(var(--primary-rgb), 0.3) !important;
     }
 
     /* Ensure pixel art fonts maintain their crisp edges */
@@ -1915,8 +1925,8 @@ footer {
         background: transparent !important;
         -webkit-background-clip: initial !important;
         background-clip: initial !important;
-        -webkit-text-fill-color: var(--primary) !important;
-        text-shadow: 0 0 5px rgba(96, 139, 48, 0.6) !important;
+        -webkit-text-fill-color: var(--accent-1) !important;
+        text-shadow: 0 0 5px rgba(var(--primary-rgb), 0.3) !important;
     }
 }
 
@@ -1936,7 +1946,12 @@ footer {
     }
     
     /* Specific fixes for iPhone Retina */
-    .banner-highlight {
+    .banner-highlight,
+    .section-title,
+    .gallery-title,
+    .cta-title,
+    .logo,
+    .logo-subtext {
         background: none !important;
         -webkit-text-fill-color: var(--accent-1) !important;
         text-shadow: 0 0 5px rgba(var(--primary-rgb), 0.3) !important;
