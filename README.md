@@ -2,7 +2,6 @@
 
 A stylish, responsive website for showcasing and ordering custom digital artwork in multiple theme styles. Designed with a focus on NFT aesthetics and pixel art, this platform connects artists with clients through a simple ordering process.
 
-<!-- Note: Replace this placeholder text with an actual screenshot of your website after deployment -->
 ![Website Preview](images/preview.png) 
 
 ## Features
@@ -101,4 +100,4 @@ This project is available for personal and commercial use.
 
 ---
 
-Created with ❤️ by [Your Name/Brand] 
+Created with ❤️ by [Wacaflow] 
