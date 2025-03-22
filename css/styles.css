@@ -541,10 +541,11 @@ nav ul {
 .media-content, .media-item img, .media-item video {
     width: 100%;
     height: 220px;
-    object-fit: cover;
+    object-fit: contain;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     transition: transform 0.5s ease;
     display: block;
+    background-color: #000;
 }
 
 .media-item:hover .media-content, 
@@ -805,11 +806,13 @@ nav ul {
     background-color: rgba(30, 30, 30, 0.7);
     border-radius: 15px;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     transition: all 0.3s;
     border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     backdrop-filter: blur(5px);
+    position: relative;
+    padding-left: 70px;
 }
 
 .order-step:hover {
@@ -829,21 +832,24 @@ nav ul {
     color: var(--dark);
     border-radius: 50%;
     font-weight: bold;
-    margin-right: 15px;
     flex-shrink: 0;
     font-family: 'Press Start 2P', cursive;
     font-size: 16px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
     border: 2px solid rgba(255, 255, 255, 0.1);
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .step-content {
     flex: 1;
     font-size: 17px;
     line-height: 1.6;
-    padding-top: 8px;
     color: rgba(255, 255, 255, 0.9);
+    padding-top: 0;
 }
 
 /* Twitter section - Updated */
@@ -1270,7 +1276,7 @@ footer {
         font-size: 16px;
         border-radius: 50px;
         background: linear-gradient(135deg, var(--primary), var(--accent-1));
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         margin: 5px 0;
         font-weight: 700;
         letter-spacing: 0.5px;
@@ -1296,37 +1302,27 @@ footer {
     }
     
     .order-step {
-        margin-bottom: 15px;
-        font-size: 14px;
-    }
-    
-    .footer-links {
-        flex-direction: column;
-        align-items: center;
-        gap: 15px;
-    }
-    
-    .close-modal {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        width: 32px;
-        height: 32px;
-        font-size: 20px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 10;
+        padding: 16px 15px 16px 60px; /* Adjusted left padding for smaller screens */
+        margin-bottom: 12px;
+        border-radius: 15px;
+        align-items: center; /* Center the step content vertically */
+        border-left: none;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(30, 30, 30, 0.7);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        position: relative; /* Ensure proper positioning of the step number */
     }
     
     .step-number {
         width: 34px;
         height: 34px;
         font-size: 13px;
-        margin-right: 12px;
         border-width: 1px;
+        position: absolute; /* Position the number absolutely */
+        left: 12px; /* Adjusted position for smaller screens */
+        top: 50%; /* Center vertically */
+        transform: translateY(-50%); /* Perfect vertical centering */
     }
     
     .step-number::before {
@@ -1356,28 +1352,9 @@ footer {
         margin: 20px 0;
     }
     
-    .order-step {
-        padding: 16px 15px;
-        margin-bottom: 12px;
-        border-radius: 15px;
-        align-items: flex-start;
-        border-left: none;
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        background: rgba(30, 30, 30, 0.7);
-        backdrop-filter: blur(10px);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    }
-    
-    .step-number {
-        width: 34px;
-        height: 34px;
-        font-size: 13px;
-        margin-right: 12px;
-        border-width: 1px;
-    }
-    
-    .step-number::before {
-        display: none;
+    .step-content {
+        font-size: 14px;
+        padding-top: 0;
     }
     
     .twitter-handle {
@@ -1389,9 +1366,25 @@ footer {
         margin-top: 15px;
     }
     
-    .step-content {
-        font-size: 14px;
-        padding-top: 5px;
+    .footer-links {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .close-modal {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 32px;
+        height: 32px;
+        font-size: 20px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
     }
 }
 
@@ -1806,20 +1799,23 @@ footer {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.2); /* More transparent to see video content */
     transition: opacity 0.3s ease;
     z-index: 5;
+    pointer-events: none; /* Allow clicks to pass through to video container */
 }
 
-.play-icon {
+.video-container .play-icon {
     width: 60px;
     height: 60px;
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent play button */
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
+    pointer-events: auto; /* Make only the button clickable */
+    transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 .play-icon:after {
@@ -1835,7 +1831,17 @@ footer {
 
 .video-container:hover .play-icon {
     transform: scale(1.1);
-    transition: transform 0.3s ease;
+    background-color: rgba(0, 0, 0, 0.7); /* Darker on hover for better contrast */
+}
+
+/* Make sure videos are always visible */
+.video-container video {
+    display: block;
+    opacity: 1 !important;
+    z-index: 1;
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
 }
 
 /* Hidden utility class */
