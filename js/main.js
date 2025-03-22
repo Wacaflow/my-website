@@ -9,7 +9,7 @@ const influencers = [
         tags: ["Crypto", "DeFi", "NovaTradeBot"],
         media: [
             { type: "image", url: "images/portfolio/rasmr_eth_1.jpg", description: "Custom banner for crypto collection" },
-            { type: "video", url: "images/portfolio/placeholder_video.mp4", description: "Animated promo for DeFi project" }
+            { type: "video", url: "images/portfolio/placeholder_video.mp4", thumbnail: "images/portfolio/custom_thumbnail.jpg", description: "Animated promo for DeFi project" }
         ]
     },
 
@@ -200,12 +200,12 @@ function openMediaGallery(influencer) {
                 <p class="media-description">${item.description}</p>
             `;
         } else if (item.type === 'video') {
-            // Generate a poster URL from the video URL (using the same filename but with jpg extension)
-            const posterUrl = item.url.replace('.mp4', '.jpg');
+            // Use a dedicated fallback poster that we know exists in the images directory
+            const fallbackPoster = 'images/portfolio/video_thumbnail.jpg';
             
             mediaItem.innerHTML = `
                 <div class="video-container">
-                    <video preload="metadata" muted playsinline poster="${posterUrl}" onerror="this.poster='images/portfolio/video_thumbnail.jpg'">
+                    <video class="main-video" preload="metadata" controls playsinline loop poster="${fallbackPoster}">
                         <source src="${item.url}" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
@@ -219,50 +219,76 @@ function openMediaGallery(influencer) {
             const video = mediaItem.querySelector('video');
             const playButton = mediaItem.querySelector('.play-button-overlay');
             
-            // Direct click handler on the play button
-            playButton.addEventListener('click', function(e) {
-                e.stopPropagation(); // Prevent event bubbling
-                
-                if (video.paused) {
-                    // Unmute and play
-                    video.muted = false;
-                    video.play()
-                        .then(() => {
-                            playButton.style.opacity = '0';
-                        })
-                        .catch(error => {
-                            console.error("Video play failed:", error);
-                        });
-                } else {
-                    video.pause();
-                    playButton.style.opacity = '1';
-                }
-            });
+            // Show play button initially
+            if (playButton) {
+                playButton.style.display = 'flex';
+                playButton.style.opacity = '1';
+            }
             
-            // Backup click handler on the container
-            videoContainer.addEventListener('click', function(e) {
-                if (e.target === videoContainer) {
+            // Make video element directly clickable
+            if (video) {
+                // Force preload to improve playback chance
+                video.preload = 'auto';
+                
+                // Basic click handler for the entire container
+                videoContainer.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
                     if (video.paused) {
-                        video.muted = false;
-                        video.play()
-                            .then(() => {
-                                playButton.style.opacity = '0';
-                            })
-                            .catch(error => {
-                                console.error("Video play failed:", error);
+                        // Play the video
+                        video.muted = false; // Ensure sound
+                        
+                        const playPromise = video.play();
+                        
+                        if (playPromise !== undefined) {
+                            playPromise.then(() => {
+                                // Success - hide play button
+                                if (playButton) {
+                                    playButton.style.opacity = '0';
+                                }
+                            }).catch(error => {
+                                console.error("Playback failed:", error);
+                                
+                                // Try muted playback as fallback for mobile
+                                video.muted = true;
+                                video.play().catch(e => {
+                                    console.error("Muted playback also failed:", e);
+                                    
+                                    // Last resort: Make video controls visible so user can play manually
+                                    video.controls = true;
+                                });
                             });
+                        }
                     } else {
+                        // Pause the video
                         video.pause();
+                        if (playButton) {
+                            playButton.style.opacity = '1';
+                        }
+                    }
+                });
+                
+                // Handle play/pause events to update UI accordingly
+                video.addEventListener('play', function() {
+                    if (playButton) {
+                        playButton.style.opacity = '0';
+                    }
+                });
+                
+                video.addEventListener('pause', function() {
+                    if (playButton) {
                         playButton.style.opacity = '1';
                     }
-                }
-            });
-            
-            // When video ends, reset the play button
-            video.addEventListener('ended', function() {
-                playButton.style.opacity = '1';
-                video.currentTime = 0;
-            });
+                });
+                
+                video.addEventListener('ended', function() {
+                    if (playButton) {
+                        playButton.style.opacity = '1';
+                    }
+                    video.currentTime = 0;
+                });
+            }
         }
         
         mediaGalleryContent.appendChild(mediaItem);
@@ -429,8 +455,53 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Add extra event listeners for mobile
 function initMobileEnhancements() {
-    // Global video delegate click handler 
+    // Prepare mobile videos for immediate viewing
+    const prepareVideosForMobile = () => {
+        // Check if we're on a mobile device
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 768;
+        
+        if (isMobile) {
+            // Find all video containers
+            const videoContainers = document.querySelectorAll('.video-container');
+            
+            videoContainers.forEach(container => {
+                const video = container.querySelector('video');
+                
+                if (video) {
+                    // Make sure video is ready with proper attributes
+                    video.setAttribute('playsinline', '');
+                    video.muted = true; // Must be muted for autoplay to work on mobile
+                    
+                    // For iOS devices specifically, add controls by default
+                    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+                    if (isIOS) {
+                        video.controls = true;
+                    }
+                }
+            });
+        }
+    };
+    
+    // Run initially and whenever gallery opens
+    prepareVideosForMobile();
+    
+    // When media gallery opens
+    if (typeof mediaGalleryContainer !== 'undefined') {
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.attributeName === 'style' && 
+                    mediaGalleryContainer.style.display === 'flex') {
+                    setTimeout(prepareVideosForMobile, 100); // Small delay to ensure DOM is ready
+                }
+            });
+        });
+        
+        observer.observe(mediaGalleryContainer, { attributes: true });
+    }
+
+    // Global video delegate click handler for mobile
     document.addEventListener('click', function(e) {
+        // Handle clicks on video play buttons
         if (e.target.matches('.play-button-overlay')) {
             e.preventDefault();
             e.stopPropagation();
@@ -438,36 +509,32 @@ function initMobileEnhancements() {
             const videoContainer = e.target.closest('.video-container');
             if (videoContainer) {
                 const video = videoContainer.querySelector('video');
+                
                 if (video) {
                     if (video.paused) {
-                        // Set up playback with autoplay handling
+                        // Attempt to play the video
                         video.muted = false;
                         
-                        // Try to play with promise handling (modern browsers)
+                        // Hide the play button
+                        e.target.style.opacity = '0';
+                        
+                        // Try to play with promise handling
                         const playPromise = video.play();
                         
                         if (playPromise !== undefined) {
-                            playPromise.then(() => {
-                                // Playback started successfully
-                                e.target.style.opacity = '0';
-                            }).catch(error => {
-                                // Auto-play was prevented
+                            playPromise.catch(error => {
                                 console.error("Video playback failed:", error);
                                 
-                                // For iOS, we might need user gesture workaround
-                                // Show a more prominent play button or message
-                                e.target.style.transform = 'scale(1.2)';
-                                e.target.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+                                // Mobile fallback: try muted autoplay as a last resort
+                                video.muted = true;
+                                video.play().catch(e => {
+                                    console.error("Muted playback also failed:", e);
+                                    // Show controls so user can play manually
+                                    video.controls = true;
+                                    e.target.style.display = 'none';
+                                });
                             });
-                        } else {
-                            // Older browsers without promise support
-                            e.target.style.opacity = '0';
                         }
-                    } else {
-                        video.pause();
-                        e.target.style.opacity = '1';
-                        e.target.style.transform = 'scale(1)';
-                        e.target.style.backgroundColor = 'rgba(0, 0, 0, 0.4)';
                     }
                 }
             }
