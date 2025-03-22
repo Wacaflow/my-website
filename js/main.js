@@ -2,29 +2,50 @@
 const influencers = [
     {
         id: 1,
-        name: "rasmr_eth",
-        handle: "@rasmr_eth",
-        twitterUrl: "https://x.com/rasmr_eth",
-        profileImage: "images/influencers/rasmr_eth.jpg", 
-        tags: ["Crypto", "DeFi", "NovaTradeBot"],
-        media: [
-            { type: "image", url: "images/portfolio/rasmr_eth_1.jpg", description: "Custom banner for crypto collection" },
-            { type: "video", url: "images/portfolio/placeholder_video.mp4", thumbnail: "images/portfolio/custom_thumbnail.jpg", description: "Animated promo for DeFi project" }
-        ]
-    },
-
-    {
-        id: 2,
         name: "wacaflow",
         handle: "@wacaflow",
         twitterUrl: "https://x.com/wacaflow",
         profileImage: "images/influencers/waca.jpg", 
         tags: ["Crypto"],
         media: [
-            { type: "video", url: "images/portfolio/gm.mp4", description: "Animated promo for DeFi project" },
-            { type: "video", url: "images/portfolio/gn.mp4", description: "Animated promo for DeFi project" },
-            { type: "video", url: "images/portfolio/bullish.mp4", description: "Animated promo for DeFi project" },
-            { type: "video", url: "images/portfolio/dips.mp4", description: "Animated promo for DeFi project" }
+            { type: "image", url: "images/portfolio/wacaflow/ava.jpg", description: "Custom avatar for X profile" },
+            { type: "video", url: "images/portfolio/wacaflow/gm.mp4", description: "Animated promo for GM" },
+            { type: "video", url: "images/portfolio/wacaflow/gn.mp4", description: "Animated promo for GN" },
+            { type: "video", url: "images/portfolio/wacaflow/bullish.mp4", description: "Animated promo for BULLISH" },
+            { type: "video", url: "images/portfolio/wacaflow/dips.mp4", description: "Animated promo for BEARISH" },
+            { type: "video", url: "images/portfolio/wacaflow/SGA1.mp4", description: "Animated promo for Solana" },
+            { type: "video", url: "images/portfolio/wacaflow/SGA2.mp4", description: "Animated promo for Solana" },
+            { type: "video", url: "images/portfolio/wacaflow/SGA3.mp4", description: "Animated promo for Solana" },
+            { type: "video", url: "images/portfolio/wacaflow/hustle.mp4", description: "Animated promo for Hustle" },
+            { type: "video", url: "images/portfolio/wacaflow/focus.mp4", description: "Animated promo for Focus" },
+            { type: "video", url: "images/portfolio/wacaflow/candle.mp4", description: "Animated promo for Green Candle" }
+        ]
+    },
+
+    {
+        id: 2,
+        name: "0xDeflect",
+        handle: "@0xDeflect",
+        twitterUrl: "https://x.com/0xDeflect",
+        profileImage: "images/influencers/0xDeflect.jpg", 
+        tags: ["Crypto", "Web3", "BlueMoonW3"],
+        media: [
+            { type: "video", url: "images/portfolio/0xDeflect/GM.mp4", description: "Animated promo for GM" },
+            { type: "video", url: "images/portfolio/0xDeflect/GN.mp4", description: "Animated promo for GN" },
+            { type: "video", url: "images/portfolio/0xDeflect/GN2.mp4", description: "Animated promo for GM" }
+        ]
+    },
+
+    {
+        id: 3,
+        name: "rasmr_eth",
+        handle: "@rasmr_eth",
+        twitterUrl: "https://x.com/rasmr_eth",
+        profileImage: "images/influencers/rasmr_eth.jpg", 
+        tags: ["Crypto", "DeFi", "NovaTradeBot"],
+        media: [
+            { type: "image", url: "images/portfolio/rasmr/rasmr_eth_1.jpg", description: "Custom banner for crypto collection" },
+            { type: "video", url: "images/portfolio/rasmr/placeholder_video.mp4", description: "Animated promo for DeFi project" }
         ]
     }
     // To add a new influencer, copy the object above and paste it here
@@ -202,13 +223,10 @@ function openMediaGallery(influencer) {
                 </div>
             `;
         } else if (item.type === 'video') {
-            // Use a dedicated fallback poster that we know exists in the images directory
-            const fallbackPoster = 'images/portfolio/video_thumbnail.jpg';
-            
             mediaItem.innerHTML = `
                 <div class="media-item-inner">
                     <div class="video-container">
-                        <video class="media-content" preload="metadata" playsinline loop poster="${fallbackPoster}">
+                        <video class="media-content" preload="metadata" playsinline loop>
                             <source src="${item.url}" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
@@ -230,7 +248,15 @@ function openMediaGallery(influencer) {
                 // Clean up styling to match image cards
                 video.style.width = '100%';
                 video.style.height = '100%';
-                video.style.objectFit = 'cover';
+                video.style.objectFit = 'contain';
+                
+                // Load initial frame immediately so video is visible while paused
+                video.addEventListener('loadeddata', function() {
+                    // Show the first frame by seeking to a specific time
+                    if (video.readyState >= 2) {
+                        video.currentTime = 0.1;
+                    }
+                });
                 
                 // Handle video click to play/pause
                 videoContainer.addEventListener('click', function(e) {
@@ -238,7 +264,9 @@ function openMediaGallery(influencer) {
                     
                     if (video.paused) {
                         // Play video
-                        video.play();
+                        video.play().catch(err => {
+                            console.error('Video playback failed:', err);
+                        });
                         playButton.classList.add('hidden');
                     } else {
                         // Pause video
@@ -417,47 +445,51 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Add extra event listeners for mobile
+// Mobile enhancements
 function initMobileEnhancements() {
     // Prepare mobile videos for immediate viewing
     const prepareVideosForMobile = () => {
-        // Check if we're on a mobile device
-        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 768;
+        // Find all video containers
+        const videoContainers = document.querySelectorAll('.video-container');
         
-        if (isMobile) {
-            // Find all video containers
-            const videoContainers = document.querySelectorAll('.video-container');
+        videoContainers.forEach(container => {
+            const video = container.querySelector('video');
+            const playOverlay = container.querySelector('.play-button-overlay');
             
-            videoContainers.forEach(container => {
-                const video = container.querySelector('video');
-                const playOverlay = container.querySelector('.play-button-overlay');
+            if (video) {
+                // Make sure video is ready with proper attributes for mobile
+                video.setAttribute('playsinline', '');
+                video.preload = 'metadata';
                 
-                if (video) {
-                    // Make sure video is ready with proper attributes for mobile
-                    video.setAttribute('playsinline', '');
-                    video.preload = 'metadata';
-                    
-                    // Add special touch handling for mobile
-                    container.addEventListener('touchend', function(e) {
+                // Load first frame for instant preview
+                video.addEventListener('loadedmetadata', function() {
+                    // Make sure video content is visible initially
+                    video.currentTime = 0.1;
+                });
+                
+                // Add special touch handling for mobile
+                container.addEventListener('touchend', function(e) {
+                    // Only prevent default if the event is cancelable
+                    if (e.cancelable) {
                         e.preventDefault();
-                        
-                        if (video.paused) {
-                            // Play video
-                            playOverlay.classList.add('hidden');
-                            video.play().catch(err => {
-                                console.error('Mobile video playback failed:', err);
-                                // Show overlay again if playback fails
-                                playOverlay.classList.remove('hidden');
-                            });
-                        } else {
-                            // Pause video
-                            video.pause();
+                    }
+                    
+                    if (video.paused) {
+                        // Play video
+                        playOverlay.classList.add('hidden');
+                        video.play().catch(err => {
+                            console.error('Mobile video playback failed:', err);
+                            // Show overlay again if playback fails
                             playOverlay.classList.remove('hidden');
-                        }
-                    });
-                }
-            });
-        }
+                        });
+                    } else {
+                        // Pause video
+                        video.pause();
+                        playOverlay.classList.remove('hidden');
+                    }
+                });
+            }
+        });
     };
     
     // Run initially and whenever gallery opens
@@ -481,7 +513,7 @@ function initMobileEnhancements() {
     document.addEventListener('touchmove', function(e) {
         if (mediaGalleryContainer.style.display === 'flex') {
             // Allow scrolling within the gallery
-            if (!e.target.closest('.media-gallery-container')) {
+            if (!e.target.closest('.media-gallery-container') && e.cancelable) {
                 e.preventDefault();
             }
         }
@@ -489,7 +521,9 @@ function initMobileEnhancements() {
 
     // Fix iOS scroll to top issue
     closeGallery.addEventListener('click', function(e) {
-        e.preventDefault();
+        if (e.cancelable) {
+            e.preventDefault();
+        }
         
         // Stop any playing videos when gallery closes
         const videos = mediaGalleryContent.querySelectorAll('video');
