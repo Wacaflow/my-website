@@ -196,22 +196,28 @@ function openMediaGallery(influencer) {
         
         if (item.type === 'image') {
             mediaItem.innerHTML = `
-                <img src="${item.url}" alt="${item.description}" onerror="this.src='images/portfolio/placeholder_image.jpg'">
-                <p class="media-description">${item.description}</p>
+                <div class="media-item-inner">
+                    <img class="media-content" src="${item.url}" alt="${item.description}" onerror="this.src='images/portfolio/placeholder_image.jpg'">
+                    <p class="media-description">${item.description}</p>
+                </div>
             `;
         } else if (item.type === 'video') {
             // Use a dedicated fallback poster that we know exists in the images directory
             const fallbackPoster = 'images/portfolio/video_thumbnail.jpg';
             
             mediaItem.innerHTML = `
-                <div class="video-container">
-                    <video class="main-video" preload="metadata" controls playsinline loop poster="${fallbackPoster}">
-                        <source src="${item.url}" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                    <div class="play-button-overlay" role="button" aria-label="Play video"></div>
+                <div class="media-item-inner">
+                    <div class="video-container">
+                        <video class="media-content" preload="metadata" playsinline loop poster="${fallbackPoster}">
+                            <source src="${item.url}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="play-button-overlay">
+                            <div class="play-icon"></div>
+                        </div>
+                    </div>
+                    <p class="media-description">${item.description}</p>
                 </div>
-                <p class="media-description">${item.description}</p>
             `;
             
             // Get video elements
@@ -219,73 +225,31 @@ function openMediaGallery(influencer) {
             const video = mediaItem.querySelector('video');
             const playButton = mediaItem.querySelector('.play-button-overlay');
             
-            // Show play button initially
-            if (playButton) {
-                playButton.style.display = 'flex';
-                playButton.style.opacity = '1';
-            }
-            
-            // Make video element directly clickable
+            // Make video element properly styled
             if (video) {
-                // Force preload to improve playback chance
-                video.preload = 'auto';
+                // Clean up styling to match image cards
+                video.style.width = '100%';
+                video.style.height = '100%';
+                video.style.objectFit = 'cover';
                 
-                // Basic click handler for the entire container
+                // Handle video click to play/pause
                 videoContainer.addEventListener('click', function(e) {
                     e.preventDefault();
-                    e.stopPropagation();
                     
                     if (video.paused) {
-                        // Play the video
-                        video.muted = false; // Ensure sound
-                        
-                        const playPromise = video.play();
-                        
-                        if (playPromise !== undefined) {
-                            playPromise.then(() => {
-                                // Success - hide play button
-                                if (playButton) {
-                                    playButton.style.opacity = '0';
-                                }
-                            }).catch(error => {
-                                console.error("Playback failed:", error);
-                                
-                                // Try muted playback as fallback for mobile
-                                video.muted = true;
-                                video.play().catch(e => {
-                                    console.error("Muted playback also failed:", e);
-                                    
-                                    // Last resort: Make video controls visible so user can play manually
-                                    video.controls = true;
-                                });
-                            });
-                        }
+                        // Play video
+                        video.play();
+                        playButton.classList.add('hidden');
                     } else {
-                        // Pause the video
+                        // Pause video
                         video.pause();
-                        if (playButton) {
-                            playButton.style.opacity = '1';
-                        }
+                        playButton.classList.remove('hidden');
                     }
                 });
                 
-                // Handle play/pause events to update UI accordingly
-                video.addEventListener('play', function() {
-                    if (playButton) {
-                        playButton.style.opacity = '0';
-                    }
-                });
-                
-                video.addEventListener('pause', function() {
-                    if (playButton) {
-                        playButton.style.opacity = '1';
-                    }
-                });
-                
+                // Show play button when video ends
                 video.addEventListener('ended', function() {
-                    if (playButton) {
-                        playButton.style.opacity = '1';
-                    }
+                    playButton.classList.remove('hidden');
                     video.currentTime = 0;
                 });
             }
@@ -466,17 +430,31 @@ function initMobileEnhancements() {
             
             videoContainers.forEach(container => {
                 const video = container.querySelector('video');
+                const playOverlay = container.querySelector('.play-button-overlay');
                 
                 if (video) {
-                    // Make sure video is ready with proper attributes
+                    // Make sure video is ready with proper attributes for mobile
                     video.setAttribute('playsinline', '');
-                    video.muted = true; // Must be muted for autoplay to work on mobile
+                    video.preload = 'metadata';
                     
-                    // For iOS devices specifically, add controls by default
-                    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-                    if (isIOS) {
-                        video.controls = true;
-                    }
+                    // Add special touch handling for mobile
+                    container.addEventListener('touchend', function(e) {
+                        e.preventDefault();
+                        
+                        if (video.paused) {
+                            // Play video
+                            playOverlay.classList.add('hidden');
+                            video.play().catch(err => {
+                                console.error('Mobile video playback failed:', err);
+                                // Show overlay again if playback fails
+                                playOverlay.classList.remove('hidden');
+                            });
+                        } else {
+                            // Pause video
+                            video.pause();
+                            playOverlay.classList.remove('hidden');
+                        }
+                    });
                 }
             });
         }
@@ -499,48 +477,6 @@ function initMobileEnhancements() {
         observer.observe(mediaGalleryContainer, { attributes: true });
     }
 
-    // Global video delegate click handler for mobile
-    document.addEventListener('click', function(e) {
-        // Handle clicks on video play buttons
-        if (e.target.matches('.play-button-overlay')) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            const videoContainer = e.target.closest('.video-container');
-            if (videoContainer) {
-                const video = videoContainer.querySelector('video');
-                
-                if (video) {
-                    if (video.paused) {
-                        // Attempt to play the video
-                        video.muted = false;
-                        
-                        // Hide the play button
-                        e.target.style.opacity = '0';
-                        
-                        // Try to play with promise handling
-                        const playPromise = video.play();
-                        
-                        if (playPromise !== undefined) {
-                            playPromise.catch(error => {
-                                console.error("Video playback failed:", error);
-                                
-                                // Mobile fallback: try muted autoplay as a last resort
-                                video.muted = true;
-                                video.play().catch(e => {
-                                    console.error("Muted playback also failed:", e);
-                                    // Show controls so user can play manually
-                                    video.controls = true;
-                                    e.target.style.display = 'none';
-                                });
-                            });
-                        }
-                    }
-                }
-            }
-        }
-    });
-    
     // Ensure proper scrolling behavior on mobile
     document.addEventListener('touchmove', function(e) {
         if (mediaGalleryContainer.style.display === 'flex') {
@@ -550,7 +486,7 @@ function initMobileEnhancements() {
             }
         }
     }, { passive: false });
-    
+
     // Fix iOS scroll to top issue
     closeGallery.addEventListener('click', function(e) {
         e.preventDefault();
