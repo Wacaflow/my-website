@@ -1882,189 +1882,107 @@ footer {
     opacity: 1;
 }
 
-/* Mobile-specific styles for the gallery */
-@media (max-width: 768px) {
-    .media-gallery {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-        background-color: var(--dark);
-        z-index: 1000;
+/* Mobile Optimizations for Text Effects - These only apply to mobile devices */
+@media (max-width: 767px) {
+    /* Optimized pixelated text for crypto influencers heading */
+    .banner-highlight, 
+    [class*="crypto-title"],
+    .pixel-text {
+        /* Improve rendering on high-DPI mobile screens */
+        -webkit-font-smoothing: none;
+        -moz-osx-font-smoothing: grayscale;
+        /* Switch to hardware acceleration for better performance */
+        transform: translateZ(0);
+        /* Simplify shadows for better mobile rendering */
+        text-shadow: 0 0 8px rgba(255, 215, 0, 0.8);
+        /* Ensure pixel-perfect rendering */
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
     }
-    
-    .media-gallery-container {
-        padding-bottom: 60px;
-        min-height: 100%;
-        max-height: none;
-        overflow-y: auto;
+
+    /* Fix for the blurry CRYPTO INFLUENCERS header text */
+    .banner-highlight, 
+    h1.crypto-title, 
+    h2.crypto-title,
+    h3.crypto-title {
+        /* Override gradient and replace with solid color for better mobile display */
+        background: transparent !important;
+        -webkit-background-clip: initial !important;
+        background-clip: initial !important;
+        -webkit-text-fill-color: #D68227 !important; /* Use accent-1 color as solid color */
+        text-shadow: 0 0 8px rgba(214, 130, 39, 0.5) !important;
+        letter-spacing: 0.5px !important;
+        font-size: 20px !important;
     }
-    
-    .media-gallery-header {
-        position: sticky;
-        top: 0;
-        background-color: rgba(10, 12, 17, 0.95);
-        backdrop-filter: blur(10px);
-        z-index: 20;
-        padding: 15px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+
+    /* Optimize glow effects for mobile */
+    [class*="glow-effect"],
+    .textGlow, 
+    .banner-highlight {
+        animation: none !important; /* Disable complex animations on mobile */
+        text-shadow: 0 0 10px currentColor !important;
+        filter: none !important; /* Remove blur filters that cause rendering issues */
     }
-    
+
+    /* Make gradients simpler on mobile */
+    [class*="gradient-text"],
+    [class*="gradient-title"],
+    .modal-title,
+    .section-title,
     .gallery-title {
-        font-size: 20px;
-        letter-spacing: 1px;
-        padding: 8px 0;
-        text-align: center;
-        width: 100%;
-        animation: textGlowTitle 2s ease-in-out infinite alternate;
+        background: linear-gradient(90deg, var(--primary), var(--accent-1)) !important;
+        -webkit-background-clip: text !important;
+        background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        /* Simpler shadow */
+        text-shadow: 0 0 8px rgba(214, 130, 39, 0.6) !important;
+    }
+
+    /* Ensure pixel art fonts maintain their crisp edges */
+    .pixel-font,
+    [class*="pixel-"],
+    .logo,
+    .logo-subtext {
+        /* Force crisp pixel rendering */
+        letter-spacing: 0 !important; /* Prevent letter-spacing issues on mobile */
+        font-size-adjust: none !important;
     }
     
-    /* Better play button on mobile */
-    .play-button-overlay {
-        opacity: 1;
-        background-color: rgba(0, 0, 0, 0.4);
+    /* Fix for "VISUALS" in the header */
+    .logo, .logo-text {
+        background: transparent !important;
+        -webkit-background-clip: initial !important;
+        background-clip: initial !important;
+        -webkit-text-fill-color: var(--primary) !important;
+        text-shadow: 0 0 5px rgba(96, 139, 48, 0.6) !important;
+    }
+}
+
+/* iPhone-specific fixes (address Retina display issues) */
+@media only screen and (-webkit-min-device-pixel-ratio: 2), 
+       only screen and (min-resolution: 192dpi) {
+    /* Fix specifically for high-DPI mobile screens */
+    .banner-highlight, 
+    [class*="crypto-title"],
+    .pixel-text {
+        /* Reduce subpixel rendering issues */
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        backface-visibility: hidden;
+        /* Ensure text remains sharp */
+        text-rendering: geometricPrecision;
     }
     
+    /* Specific fixes for iPhone Retina */
+    .banner-highlight {
+        background: none !important;
+        -webkit-text-fill-color: #D68227 !important;
+        text-shadow: 0 0 10px rgba(214, 130, 39, 0.6) !important;
+    }
+    
+    /* Better play button contrast on iPhone */
     .play-button-overlay::after {
-        border-top: 20px solid transparent;
-        border-bottom: 20px solid transparent;
-        border-left: 35px solid var(--light);
-        filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.6));
+        border-left: 35px solid #ffffff !important;
+        filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.8)) !important;
     }
-    
-    .media-item video::-webkit-media-controls-play-button {
-        display: none;
-    }
-    
-    /* Scrolling fixes */
-    .media-grid {
-        padding-bottom: 80px; /* Extra padding to ensure scrollability */
-    }
-}
-
-@media (max-width: 576px) {
-    .gallery-title {
-        font-size: 18px;
-        margin-top: 10px;
-        padding: 10px 5px;
-        border-radius: 5px;
-        background: linear-gradient(to right, var(--primary) 0%, var(--accent-1) 70%, var(--accent-2) 100%);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: textGlowMobile 2.5s ease-in-out infinite alternate;
-    }
-    
-    @keyframes textGlowMobile {
-        0% {
-            text-shadow: 0 0 8px rgba(214, 130, 39, 0.8), 0 0 15px rgba(96, 139, 48, 0.6);
-        }
-        100% {
-            text-shadow: 0 0 12px rgba(214, 130, 39, 0.9), 0 0 25px rgba(96, 139, 48, 0.7), 0 0 35px rgba(57, 85, 196, 0.5);
-        }
-    }
-    
-    .media-gallery-header {
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-        padding: 10px;
-        margin-bottom: 20px;
-        background-image: linear-gradient(to bottom, rgba(10, 12, 17, 1), rgba(10, 12, 17, 0.95));
-    }
-    
-    .gallery-back-btn {
-        width: 100%;
-        text-align: center;
-        margin-bottom: 5px;
-        font-size: 14px;
-        padding: 10px;
-        background-color: rgba(255, 255, 255, 0.1);
-        border-radius: 4px;
-    }
-    
-    .step-content {
-        font-size: 14px;
-        padding-top: 5px;
-    }
-}
-
-@media (min-height: 800px) {
-    .modal-content {
-        margin: 5vh auto;
-    }
-}
-
-@media (max-height: 700px) {
-    .modal-content {
-        padding: 25px 20px;
-        max-height: calc(100vh - 30px);
-    }
-    
-    .step-number {
-        width: 36px;
-        height: 36px;
-        font-size: 14px;
-    }
-    
-    .order-step {
-        padding: 12px 15px;
-        margin-bottom: 12px;
-    }
-    
-    .twitter-handle {
-        margin: 15px 0;
-        padding: 12px;
-    }
-    
-    .twitter-cta {
-        margin-top: 15px;
-    }
-    
-    .modal-title {
-        margin-bottom: 20px;
-        font-size: 20px;
-    }
-}
-
-/* Y2K theme specific modal styles - enhanced */
-body[data-theme="y2k"] .order-modal-content {
-    background: linear-gradient(135deg, rgba(30, 30, 30, 0.85), rgba(103, 58, 183, 0.2));
-    border: 2px solid var(--y2k-pink);
-    box-shadow: 0 0 20px rgba(255, 64, 129, 0.3), 0 0 40px rgba(103, 58, 183, 0.2);
-    max-height: 95vh;
-}
-
-body[data-theme="y2k"] .modal-title {
-    font-size: 22px;
-    line-height: 1.4;
-}
-
-body[data-theme="y2k"] .step-number {
-    background: linear-gradient(135deg, var(--y2k-pink) 20%, var(--y2k-purple) 80%);
-    border-color: rgba(255, 255, 255, 0.2);
-}
-
-body[data-theme="y2k"] .twitter-link {
-    background: linear-gradient(135deg, var(--y2k-pink), var(--y2k-purple));
-    padding: 14px 30px;
-}
-
-body[data-theme="y2k"] .order-step:hover {
-    border-color: rgba(255, 64, 129, 0.3);
-}
-
-body[data-theme="y2k"] .twitter-handle strong {
-    color: var(--y2k-pink);
-}
-
-body[data-theme="y2k"] .twitter-handle strong::after {
-    background: var(--y2k-pink);
-}
-
-body[data-theme="y2k"] .modal-title::after {
-    background: linear-gradient(90deg, var(--y2k-pink), var(--y2k-purple));
 }
