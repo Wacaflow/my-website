@@ -40,6 +40,18 @@ const influencers = [
 
     {
         id: 3,
+        name: "Fityeth",
+        handle: "@fityeth",
+        twitterUrl: "https://x.com/fityeth",
+        profileImage: "images/influencers/Fityeth.jpg", 
+        tags: ["Crypto", "Web3", "SPACEHOST"],
+        media: [
+            { type: "video", url: "images/portfolio/fityeth/fityPUMP.mp4", description: "Pump Dance" }
+        ]
+    },
+
+    {
+        id: 4,
         name: "rasmr_eth",
         handle: "@rasmr_eth",
         twitterUrl: "https://x.com/rasmr_eth",
