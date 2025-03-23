@@ -45,8 +45,8 @@ const influencers = [
         tags: ["Crypto", "DeFi", "NovaTradeBot"],
         media: [
             { type: "image", url: "images/portfolio/rasmr/rasmr_eth_1.jpg", description: "Custom banner for crypto collection" },
-            { type: "image", url: "images/portfolio/rasmr/dance1.mp4", description: "Custom banner for crypto collection" },
-            { type: "image", url: "images/portfolio/rasmr/dance2.mp4", description: "Custom banner for crypto collection" },
+            { type: "video", url: "images/portfolio/rasmr/dance1.mp4", description: "Custom banner for crypto collection" },
+            { type: "video", url: "images/portfolio/rasmr/dance2.mp4", description: "Custom banner for crypto collection" },
             { type: "video", url: "images/portfolio/rasmr/placeholder_video.mp4", description: "Animated promo for DeFi project" }
         ]
     }
