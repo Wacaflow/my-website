@@ -53,6 +53,19 @@ const influencers = [
 
     {
         id: 4,
+        name: "Bronx",
+        handle: "@BronxOnChain",
+        twitterUrl: "https://x.com/BronxOnChain",
+        profileImage: "images/influencers/BronxOnChain.jpg", 
+        tags: ["Crypto", "Web3", "AI Artist"],
+        media: [
+            { type: "video", url: "images/portfolio/BronxOnChain/GM.mp4", description: "GM Dance" },
+            { type: "video", url: "images/portfolio/BronxOnChain/post.mp4", description: "Tweet Dance" }
+        ]
+    },
+
+    {
+        id: 5,
         name: "rasmr_eth",
         handle: "@rasmr_eth",
         twitterUrl: "https://x.com/rasmr_eth",
