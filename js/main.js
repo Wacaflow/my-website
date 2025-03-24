@@ -60,7 +60,8 @@ const influencers = [
         tags: ["Crypto", "Web3", "AI Artist"],
         media: [
             { type: "video", url: "images/portfolio/BronxOnChain/Gm.mp4", description: "GM Dance" },
-            { type: "video", url: "images/portfolio/BronxOnChain/post.mp4", description: "Tweet Dance" }
+            { type: "video", url: "images/portfolio/BronxOnChain/post.mp4", description: "Tweet Dance" },
+            { type: "video", url: "images/portfolio/BronxOnChain/Bullish.mp4", description: "Bullish" }
         ]
     },
 
