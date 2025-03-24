@@ -59,7 +59,7 @@ const influencers = [
         profileImage: "images/influencers/BronxOnChain.jpg", 
         tags: ["Crypto", "Web3", "AI Artist"],
         media: [
-            { type: "video", url: "images/portfolio/BronxOnChain/GM.mp4", description: "GM Dance" },
+            { type: "video", url: "images/portfolio/BronxOnChain/Gm.mp4", description: "GM Dance" },
             { type: "video", url: "images/portfolio/BronxOnChain/post.mp4", description: "Tweet Dance" }
         ]
     },
