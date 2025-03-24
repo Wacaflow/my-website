@@ -47,7 +47,8 @@ const influencers = [
         tags: ["Crypto", "Web3", "SPACEHOST"],
         media: [
             { type: "video", url: "images/portfolio/fityeth/fityPUMP.mp4", description: "Pump Dance" },
-            { type: "video", url: "images/portfolio/fityeth/dump.mp4", description: "Dump Dance" }
+            { type: "video", url: "images/portfolio/fityeth/dump.mp4", description: "Dump Dance" },
+            { type: "video", url: "images/portfolio/fityeth/GN.mp4", description: "GN Animation" }
         ]
     },
 
