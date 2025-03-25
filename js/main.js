@@ -98,6 +98,21 @@ const influencers = [
 
     {
         id: 7,
+        name: "JR5",
+        handle: "@JR5_Crypto",
+        twitterUrl: "https://x.com/JR5_Crypto",
+        profileImage: "images/influencers/JR5_Crypto.jpg", 
+        tags: ["Crypto", "Web3", "Trader"],
+        media: [
+            { type: "video", url: "images/portfolio/JR5_Crypto/pump.mp4", description: "Pump Animation" },
+            { type: "video", url: "images/portfolio/JR5_Crypto/dump.mp4", description: "Dump Reaction" },
+            { type: "video", url: "images/portfolio/JR5_Crypto/gm.mp4", description: "Money Animation" },
+            { type: "video", url: "images/portfolio/JR5_Crypto/gn.mp4", description: "Money Animation" }
+        ]
+    },
+
+    {
+        id: 8,
         name: "rasmr_eth",
         handle: "@rasmr_eth",
         twitterUrl: "https://x.com/rasmr_eth",
