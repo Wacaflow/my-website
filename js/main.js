@@ -75,15 +75,29 @@ const influencers = [
         tags: ["Crypto", "Web3", "Remolabs"],
         media: [
             { type: "video", url: "images/portfolio/oldfatytguy/Gm.mp4", description: "GM Dance" },
-            { type: "video", url: "images/portfolio/oldfatytguy/Good.mp4", description: "GM Dance" },
-            { type: "video", url: "images/portfolio/oldfatytguy/Pump.mp4", description: "GM Dance" },
-            { type: "video", url: "images/portfolio/oldfatytguy/PumpMain.mp4", description: "GM Dance" },
-            { type: "video", url: "images/portfolio/oldfatytguy/Buterin.mp4", description: "GM Dance" }
+            { type: "video", url: "images/portfolio/oldfatytguy/Good.mp4", description: "Perfect Chart" },
+            { type: "video", url: "images/portfolio/oldfatytguy/Pump.mp4", description: "Pump Dance" },
+            { type: "video", url: "images/portfolio/oldfatytguy/PumpMain.mp4", description: "Pump Dance" },
+            { type: "video", url: "images/portfolio/oldfatytguy/Buterin.mp4", description: "Buterin Fight" }
         ]
     },
 
     {
         id: 6,
+        name: "Jeremy",
+        handle: "@Jeremyybtc",
+        twitterUrl: "https://x.com/Jeremyybtc",
+        profileImage: "images/influencers/Jeremyybtc.jpg", 
+        tags: ["Crypto", "Web3", "Advisor"],
+        media: [
+            { type: "video", url: "images/portfolio/Jeremyybtc/pump.mp4", description: "Pump Animation" },
+            { type: "video", url: "images/portfolio/Jeremyybtc/dump.mp4", description: "Dump Reaction" },
+            { type: "video", url: "images/portfolio/Jeremyybtc/money.mp4", description: "Money Animation" }
+        ]
+    },
+
+    {
+        id: 7,
         name: "rasmr_eth",
         handle: "@rasmr_eth",
         twitterUrl: "https://x.com/rasmr_eth",
