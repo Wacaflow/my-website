@@ -68,6 +68,18 @@ const influencers = [
 
     {
         id: 5,
+        name: "FatGuy",
+        handle: "@oldfatytguy",
+        twitterUrl: "https://x.com/oldfatytguy",
+        profileImage: "images/influencers/oldfatytguy.jpg", 
+        tags: ["Crypto", "Web3", "Remolabs"],
+        media: [
+            { type: "video", url: "images/portfolio/oldfatytguy/Buterin.mp4", description: "GM Dance" }
+        ]
+    },
+
+    {
+        id: 6,
         name: "rasmr_eth",
         handle: "@rasmr_eth",
         twitterUrl: "https://x.com/rasmr_eth",
