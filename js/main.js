@@ -74,6 +74,10 @@ const influencers = [
         profileImage: "images/influencers/oldfatytguy.jpg", 
         tags: ["Crypto", "Web3", "Remolabs"],
         media: [
+            { type: "video", url: "images/portfolio/oldfatytguy/Gm.mp4", description: "GM Dance" },
+            { type: "video", url: "images/portfolio/oldfatytguy/Good.mp4", description: "GM Dance" },
+            { type: "video", url: "images/portfolio/oldfatytguy/Pump.mp4", description: "GM Dance" },
+            { type: "video", url: "images/portfolio/oldfatytguy/PumpMain.mp4", description: "GM Dance" },
             { type: "video", url: "images/portfolio/oldfatytguy/Buterin.mp4", description: "GM Dance" }
         ]
     },
