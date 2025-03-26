@@ -133,14 +133,30 @@ const influencers = [
         profileImage: "images/influencers/despxwned.jpg", 
         tags: ["Crypto", "Web3 Marketing"],
         media: [
-            { type: "video", url: "images/portfolio/despxwned/gm.mp4", description: "GM Animation" },
-            { type: "video", url: "images/portfolio/despxwned/morning.mp4", description: "Morning" },
-            { type: "video", url: "images/portfolio/despxwned/pump.mp4", description: "Pump Animation" }
+            { type: "video", url: "images/portfolio/despxwned/follow.mp4", description: "Follow Animation" },
+            { type: "video", url: "images/portfolio/despxwned/hi.mp4", description: "Hi Animation" },
+            { type: "video", url: "images/portfolio/despxwned/popup.mp4", description: "Money Animation" }
         ]
     },
 
     {
         id: 10,
+        name: "borovik",
+        handle: "@3orovik",
+        twitterUrl: "https://x.com/3orovik",
+        profileImage: "images/influencers/3orovik.jpg", 
+        tags: ["Crypto", "Web3 Influencer"],
+        media: [
+            { type: "video", url: "images/portfolio/3orovik/bull.mp4", description: "Bullish Animation" },
+            { type: "video", url: "images/portfolio/3orovik/dump.mp4", description: "Dump Animation" },
+            { type: "video", url: "images/portfolio/3orovik/fun.mp4", description: "Fun Animation" },
+            { type: "video", url: "images/portfolio/3orovik/gm.mp4", description: "GM Animation" },
+            { type: "video", url: "images/portfolio/3orovik/pump.mp4", description: "PUMP Animation" }
+        ]
+    },
+
+    {
+        id: 11,
         name: "rasmr_eth",
         handle: "@rasmr_eth",
         twitterUrl: "https://x.com/rasmr_eth",
