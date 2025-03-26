@@ -144,7 +144,7 @@ const influencers = [
         name: "borovik",
         handle: "@3orovik",
         twitterUrl: "https://x.com/3orovik",
-        profileImage: "images/influencers/3orovik.png",
+        profileImage: "images/influencers/3orovik.jpg",
         tags: ["Crypto", "Web3 Influencer"],
         media: [
             { type: "video", url: "images/portfolio/3orovik/bull.mp4", description: "Bullish Animation" },
