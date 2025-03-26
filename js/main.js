@@ -119,9 +119,9 @@ const influencers = [
         profileImage: "images/influencers/FerreWeb3.jpg", 
         tags: ["Crypto", "Web3 Degen"],
         media: [
-            { type: "video", url: "images/portfolio/FerreWeb3/gm.mp4", description: "Pump Animation" },
-            { type: "video", url: "images/portfolio/FerreWeb3/morning.mp4", description: "Dump Reaction" },
-            { type: "video", url: "images/portfolio/FerreWeb3/pump.mp4", description: "Money Animation" }
+            { type: "video", url: "images/portfolio/FerreWeb3/gm.mp4", description: "GM Animation" },
+            { type: "video", url: "images/portfolio/FerreWeb3/morning.mp4", description: "Morning" },
+            { type: "video", url: "images/portfolio/FerreWeb3/pump.mp4", description: "Pump Animation" }
         ]
     },
 
