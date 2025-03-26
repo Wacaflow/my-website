@@ -113,6 +113,20 @@ const influencers = [
 
     {
         id: 8,
+        name: "Ferre",
+        handle: "@FerreWeb3",
+        twitterUrl: "https://x.com/FerreWeb3",
+        profileImage: "images/influencers/FerreWeb3.jpg", 
+        tags: ["Crypto", "Web3 Degen"],
+        media: [
+            { type: "video", url: "images/portfolio/FerreWeb3/gm.mp4", description: "Pump Animation" },
+            { type: "video", url: "images/portfolio/FerreWeb3/morning.mp4", description: "Dump Reaction" },
+            { type: "video", url: "images/portfolio/FerreWeb3/pump.mp4", description: "Money Animation" }
+        ]
+    },
+
+    {
+        id: 9,
         name: "rasmr_eth",
         handle: "@rasmr_eth",
         twitterUrl: "https://x.com/rasmr_eth",
