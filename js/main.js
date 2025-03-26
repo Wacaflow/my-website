@@ -127,6 +127,20 @@ const influencers = [
 
     {
         id: 9,
+        name: "stu",
+        handle: "@despxwned",
+        twitterUrl: "https://x.com/despxwned",
+        profileImage: "images/influencers/despxwned.jpg", 
+        tags: ["Crypto", "Web3 Marketing"],
+        media: [
+            { type: "video", url: "images/portfolio/despxwned/gm.mp4", description: "GM Animation" },
+            { type: "video", url: "images/portfolio/despxwned/morning.mp4", description: "Morning" },
+            { type: "video", url: "images/portfolio/despxwned/pump.mp4", description: "Pump Animation" }
+        ]
+    },
+
+    {
+        id: 10,
         name: "rasmr_eth",
         handle: "@rasmr_eth",
         twitterUrl: "https://x.com/rasmr_eth",
