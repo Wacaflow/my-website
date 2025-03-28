@@ -62,6 +62,7 @@ const influencers = [
         media: [
             { type: "video", url: "images/portfolio/BronxOnChain/Gm.mp4", description: "GM Dance" },
             { type: "video", url: "images/portfolio/BronxOnChain/post.mp4", description: "Tweet Dance" },
+            { type: "video", url: "images/portfolio/BronxOnChain/follow.mp4", description: "Follow Dance" },
             { type: "video", url: "images/portfolio/BronxOnChain/Bullish.mp4", description: "Bullish" }
         ]
     },
@@ -121,7 +122,8 @@ const influencers = [
         media: [
             { type: "video", url: "images/portfolio/FerreWeb3/gm.mp4", description: "GM Animation" },
             { type: "video", url: "images/portfolio/FerreWeb3/morning.mp4", description: "Morning" },
-            { type: "video", url: "images/portfolio/FerreWeb3/pump.mp4", description: "Pump Animation" }
+            { type: "video", url: "images/portfolio/FerreWeb3/pump.mp4", description: "Pump Animation" },
+            { type: "video", url: "images/portfolio/FerreWeb3/follow.mp4", description: "Follow Animation" }
         ]
     },
 
