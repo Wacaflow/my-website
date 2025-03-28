@@ -157,6 +157,20 @@ const influencers = [
 
     {
         id: 11,
+        name: "KAROLLINA",
+        handle: "@KarollinaOk",
+        twitterUrl: "https://x.com/KarollinaOk",
+        profileImage: "images/influencers/KarollinaOk.jpg",
+        tags: ["Crypto", "Web3 Marketing"],
+        media: [
+            { type: "video", url: "images/portfolio/KarollinaOk/FRDM.mp4", description: "$FRDM Dance" },
+            { type: "video", url: "images/portfolio/KarollinaOk/X.mp4", description: "X Dance" },
+            { type: "video", url: "images/portfolio/KarollinaOk/money.mp4", description: "Money Call" }
+        ]
+    },
+
+    {
+        id: 12,
         name: "rasmr_eth",
         handle: "@rasmr_eth",
         twitterUrl: "https://x.com/rasmr_eth",
